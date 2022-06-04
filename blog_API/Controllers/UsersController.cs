@@ -10,8 +10,6 @@ namespace blog_API.Controllers {
 
         [HttpPost]
         public void CreateUser([FromBody] User user) {
-
-            Console.WriteLine(user.Id);
             userList.Add(user);
         }
     }
