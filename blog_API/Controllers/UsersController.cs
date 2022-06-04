@@ -1,4 +1,5 @@
 ﻿using blog_API.Models;
+using blog_API.Repository;
 using Microsoft.AspNetCore.Mvc;
 
 namespace blog_API.Controllers {
@@ -10,7 +11,12 @@ namespace blog_API.Controllers {
 
         [HttpPost]
         public void CreateUser([FromBody] User user) {
-            userList.Add(user);
+            UserRepository.CreateUser(user);
+        }
+
+        [HttpGet]
+        public List<User> GetUsers() {
+            return UserRepository.GetAllUsers();
         }
     }
 }

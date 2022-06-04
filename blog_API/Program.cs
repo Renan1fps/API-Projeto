@@ -1,3 +1,5 @@
+using blog_API.Repository;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -13,6 +15,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment()) {
     app.UseSwagger();
     app.UseSwaggerUI();
+    UserRepository.OpenConection();
 }
 
 app.UseHttpsRedirection();
