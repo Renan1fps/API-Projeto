@@ -5,7 +5,7 @@ using MySql.Data.MySqlClient;
 namespace blog_API.Repository {
     public class UserRepository {
 
-        static readonly string url = @"server=projeto.cyvycyex4cnc.us-east-1.rds.amazonaws.com;uid=root;pwd=pedro.123;database=bd_article_dev;ConnectionTimeout=2";
+        static readonly string url = @"";
         static readonly MySqlConnection connection = new MySqlConnection(url);
 
         public static void OpenConection() {
