@@ -5,14 +5,14 @@ using MySql.Data.MySqlClient;
 namespace blog_API.Repository {
     public class UserRepository {
 
-        static readonly string url = @"";
+        static readonly string url = @"server=projeto.cyvycyex4cnc.us-east-1.rds.amazonaws.com;uid=root;pwd=pedro.123;database=bd_article_dev;ConnectionTimeout=2";
         static readonly MySqlConnection connection = new MySqlConnection(url);
 
         public static void OpenConection() {
             connection.Open();
         }
 
-        public static List<User> GetAllUsers() {
+        public List<User> GetAllUsers() {
             try {
                 string queryString = "SELECT * FROM users";
                 MySqlCommand command = new MySqlCommand(queryString, connection);
@@ -26,7 +26,7 @@ namespace blog_API.Repository {
                     string passwordSave = data.GetString(3);
                     bool isAdmin = data.GetBoolean(4);
                     DateTime createdAt = data.GetDateTime(5);
-                    User user = new User(name, emailSave, passwordSave, isAdmin);
+                    User user = new User(id, name, emailSave, passwordSave, isAdmin, createdAt);
                     lista.Add(user);
                 }
                 data.Close();
@@ -65,6 +65,35 @@ namespace blog_API.Repository {
 
                 if (data.Read()) {
                     string id = data.GetString(0);
+                    string name = data.GetString(1);
+                    string emailSave = data.GetString(2);
+                    string passwordSave = data.GetString(3);
+                    bool isAdmin = data.GetBoolean(4);
+                    DateTime createdAt = data.GetDateTime(5);
+                    User user = new User(name, emailSave, passwordSave, isAdmin);
+                    data.Close();
+                    return user;
+                }
+
+                data.Close();
+                return null;
+            }
+            catch (Exception ex) {
+                Console.WriteLine(ex);  // TODO: make custom exception
+                return null;
+            }
+        }
+
+        public User GetUserById(string id) {
+            MySqlCommand command = null;
+            try {
+                string queryString = $"SELECT * FROM users WHERE id = '{id}'";
+
+                command = new MySqlCommand(queryString, connection);
+                MySqlDataReader data = command.ExecuteReader();
+
+                if (data.Read()) {
+                    string idSave = data.GetString(0);
                     string name = data.GetString(1);
                     string emailSave = data.GetString(2);
                     string passwordSave = data.GetString(3);

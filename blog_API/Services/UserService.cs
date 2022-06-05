@@ -16,7 +16,6 @@ namespace blog_API.Services {
            
 
             if (existsUser != null) {
-                Console.WriteLine(existsUser.GetEmail());
                 return "Usuário já existente"; // TODO: make a helper 400 request
             }
 
@@ -26,6 +25,21 @@ namespace blog_API.Services {
 
             this.userRepository.CreateUser(userToSave);
             return "usuário criado";
+        }
+
+        public List<User> GetAllUsers() { 
+            return this.userRepository.GetAllUsers();
+        }
+
+        public User GetUserById(string id) {
+
+            User existsUser = this.userRepository.GetUserById(id);
+
+            if(existsUser == null) {
+                return null;
+            }
+
+            return existsUser;
         }
     }
 }

@@ -22,8 +22,52 @@ namespace blog_API.Controllers {
         }
 
         [HttpGet]
-        public List<User> GetUsers() {
-            return UserRepository.GetAllUsers();
+        public List<ListAllUsersDTO> GetUsers() {
+            List<ListAllUsersDTO> usersDTO = new List<ListAllUsersDTO>();
+
+            UserRepository userRepository = new UserRepository();
+            UserService userService = new UserService(userRepository);
+
+            List<User> users = userService.GetAllUsers();
+
+            users.ForEach(user => {
+                ListAllUsersDTO userList = new ListAllUsersDTO();
+                userList.Id = user.GetId();
+                userList.Name = user.GetName();
+                userList.Email = user.GetEmail();
+                userList.Password = user.GetPassword();
+                userList.IsAdmin = user.GetIsAdmin();
+                userList.created = user.GetCreate();
+                usersDTO.Add(userList);
+            });
+
+            return usersDTO;
         }
+
+
+        [HttpGet("{id}")]
+        public GetUserDTO GetUserById(string id) {
+
+            UserRepository userRepository = new UserRepository();
+            UserService userService = new UserService(userRepository);
+
+            User userSave = userService.GetUserById(id);
+
+            if (userSave != null) {
+                GetUserDTO userDTO = new GetUserDTO();
+
+                userDTO.Id = userSave.GetId();
+                userDTO.Name = userSave.GetName();
+                userDTO.Email = userSave.GetEmail();
+                userDTO.Password = userSave.GetPassword();
+                userDTO.IsAdmin = userSave.GetIsAdmin();
+                userDTO.created = userSave.GetCreate();
+                return userDTO;
+            }
+
+            return null;
+        }
+
+
     }
 }

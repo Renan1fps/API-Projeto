@@ -18,6 +18,15 @@ namespace blog_API.Models {
             this.IsAdmin = isAdmin;
         }
 
+        public User(string id, string name, string email, string password, bool isAdmin, DateTime createdAt) {
+            this.Id = id;
+            this.Name = name;
+            this.Email = email;
+            this.Password = password;
+            this.IsAdmin = isAdmin;
+            this.Created = createdAt;
+        }
+
         public void CriptoPassword() {
             string salt = BCrypt.Net.BCrypt.GenerateSalt(12);
             string hashPassword = BCrypt.Net.BCrypt.HashPassword(this.Password, salt);
