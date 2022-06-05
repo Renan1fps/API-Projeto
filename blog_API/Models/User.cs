@@ -3,13 +3,71 @@
 namespace blog_API.Models {
     public class User {
 
-        public string Id { get; set; }
-        public string Name { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public bool IsAdmin { get; set; }
+        private string Id;
+        private string Name;
+        private string Email;
+        private string Password;
+        private bool IsAdmin;
+        private DateTime Created;
 
-        public DateTime Created { get; set; }
+
+        public User(string name, string email, string password, bool isAdmin) {
+            this.Name = name;
+            this.Email = email;
+            this.Password = password;
+            this.IsAdmin = isAdmin;
+        }
+
+        public void CriptoPassword() {
+            string salt = BCrypt.Net.BCrypt.GenerateSalt(12);
+            string hashPassword = BCrypt.Net.BCrypt.HashPassword(this.Password, salt);
+
+            this.Password = hashPassword;
+        }
+
+        public void GenerateId() {
+            this.Id = Guid.NewGuid().ToString("N");
+        }
+
+        public string GetName() {
+            return this.Name;
+        }
+
+        public void SetName(string name) {
+            this.Name = name;
+        }
+
+        public string GetEmail() {
+            return this.Email;
+        }
+
+        public void SetEmail(string email) {
+            this.Email = email;
+        }
+
+        public string GetPassword() {
+            return this.Password;
+        }
+
+        public void SetPassword(string password) {
+            this.Password = password;
+        }
+
+        public bool GetIsAdmin() {
+            return this.IsAdmin;
+        }
+
+        public void SetIsAdmin(bool isAdmin) {
+            this.IsAdmin = isAdmin;
+        }
+
+        public string GetId() {
+            return this.Id;
+        }
+
+        public DateTime GetCreate() {
+            return this.Created;
+        }
 
     }
 }

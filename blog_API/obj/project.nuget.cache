@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "Ih6ivt3rx8AtBstsv5nIMfi9Q7wx7qpsHVOwaL6c+YKMJu/hSN3ryCRP9GEJwCSsyEcYnwr8YOpghuhHI2eXKA==",
+  "dgSpecHash": "aKvwuQPpcQQuIUy/+vSr5Zw4LGbMifTau37wphkJXeuSScR5Z7OhechDj9A1W/nP1106dUHxtcoGIBwo9blmSw==",
   "success": true,
   "projectFilePath": "C:\\Users\\Renan\\source\\repos\\blog_API\\blog_API\\blog_API.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Renan\\.nuget\\packages\\bcrypt-official\\0.1.109\\bcrypt-official.0.1.109.nupkg.sha512",
     "C:\\Users\\Renan\\.nuget\\packages\\bouncycastle.netcore\\1.8.5\\bouncycastle.netcore.1.8.5.nupkg.sha512",
     "C:\\Users\\Renan\\.nuget\\packages\\google.protobuf\\3.19.4\\google.protobuf.3.19.4.nupkg.sha512",
     "C:\\Users\\Renan\\.nuget\\packages\\k4os.compression.lz4\\1.2.6\\k4os.compression.lz4.1.2.6.nupkg.sha512",
@@ -30,5 +31,16 @@
     "C:\\Users\\Renan\\.nuget\\packages\\system.text.encoding.codepages\\4.4.0\\system.text.encoding.codepages.4.4.0.nupkg.sha512",
     "C:\\Users\\Renan\\.nuget\\packages\\system.windows.extensions\\4.7.0\\system.windows.extensions.4.7.0.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "O pacote 'BCrypt-Official 0.1.109' foi restaurado usando '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' em vez da estrutura de destino do projeto 'net6.0'. Esse pacote pode não ser totalmente compatível com o seu projeto.",
+      "libraryId": "BCrypt-Official",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    }
+  ]
 }
