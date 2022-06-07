@@ -41,5 +41,17 @@ namespace blog_API.Services {
 
             return existsUser;
         }
+
+        public bool DeleteById(string id) {
+
+            User existsUser = this.userRepository.GetUserById(id);
+
+            if (existsUser == null) {
+                return false;
+            }
+
+            bool sucess = this.userRepository.DeleteById(id);
+            return sucess;
+        }
     }
 }

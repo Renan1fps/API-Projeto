@@ -112,5 +112,27 @@ namespace blog_API.Repository {
                 return null;
             }
         }
+
+        public bool DeleteById(string id) {
+            MySqlCommand command = null;
+            try {
+                string queryString = $"DELETE FROM users WHERE id = '{id}'";
+
+                command = new MySqlCommand(queryString, connection);
+                command.ExecuteNonQuery();
+                return true;
+            }
+
+            catch (Exception ex) {
+                Console.WriteLine(ex);  // TODO: make custom exception
+                return false;
+            }
+
+            finally {
+                if (command != null) command.Dispose();
+            }
+        }
+
+
     }
 }

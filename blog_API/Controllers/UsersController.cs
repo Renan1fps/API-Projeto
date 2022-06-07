@@ -69,5 +69,16 @@ namespace blog_API.Controllers {
         }
 
 
+        [HttpDelete("{id}")]
+        public bool DeleteById(string id) {
+
+            UserRepository userRepository = new UserRepository();
+            UserService userService = new UserService(userRepository);
+
+            bool userSave = userService.DeleteById(id);     
+
+            return userSave;
+        }
+
     }
 }
