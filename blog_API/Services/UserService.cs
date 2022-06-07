@@ -53,5 +53,28 @@ namespace blog_API.Services {
             bool sucess = this.userRepository.DeleteById(id);
             return sucess;
         }
+
+        public User UpdateById(string id, CreateUserDTO user) {
+
+            User existsUser = this.userRepository.GetUserById(id);
+
+            if (existsUser == null) {
+                return null;
+            }
+
+            User existsemail = this.userRepository.GetUserByEmail(user.Email);
+
+            if (existsemail != null) {
+                return null; ;
+            }
+
+            User userToUpdate = new User(user.Name, user.Email, user.Password, user.IsAdmin);
+            userToUpdate.CriptoPassword();
+          
+            bool sucess = this.userRepository.UpdateById(id, userToUpdate);
+
+
+            return sucess ? userToUpdate : null;
+        }
     }
 }

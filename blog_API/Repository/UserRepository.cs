@@ -133,6 +133,25 @@ namespace blog_API.Repository {
             }
         }
 
+        public bool UpdateById(string id, User user) {
+            MySqlCommand command = null;
+            try {
+                string queryString = $"UPDATE users SET name = '{user.GetName()}', email = '{user.GetEmail()}', passowrd = '{user.GetPassword()}' WHERE id = '{id}'";
+
+                command = new MySqlCommand(queryString, connection);
+                command.ExecuteNonQuery();
+                return true;
+            }
+
+            catch (Exception ex) {
+                Console.WriteLine(ex);  // TODO: make custom exception
+                return false;
+            }
+
+            finally {
+                if (command != null) command.Dispose();
+            }
+        }
 
     }
 }

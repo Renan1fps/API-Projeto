@@ -80,5 +80,15 @@ namespace blog_API.Controllers {
             return userSave;
         }
 
+        [HttpPut("{id}")]
+        public void UpdateById(string id, [FromBody] CreateUserDTO user) {
+
+            UserRepository userRepository = new UserRepository();
+            UserService userService = new UserService(userRepository);
+
+            User userSave = userService.UpdateById(id, user);
+
+        }
+
     }
 }
