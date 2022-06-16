@@ -1,4 +1,5 @@
 ﻿using blog_API.Dtos;
+using blog_API.Errors;
 using blog_API.Models;
 using blog_API.Repository;
 using blog_API.Services;
@@ -11,37 +12,46 @@ namespace blog_API.Controllers {
     [Route("[controller]")]
     public class UsersController : ControllerBase {
         private static List<User> userList = new List<User>();
-
-        [HttpPost]
-        public string CreateUser([FromBody] CreateUserDTO user) {
-
-            UserRepository userRepository = new UserRepository();
-            UserService userService = new UserService(userRepository);
-
-            return userService.CreateUser(user);
+                [HttpPost]
+        public ActionResult CreateUser([FromBody] CreateUserDTO user) {
+            try {
+                UserRepository userRepository = new UserRepository();
+                UserService userService = new UserService(userRepository);
+                return Ok(userService.CreateUser(user));
+            }
+            catch (BadRequest ex) {
+                BadRequest();
+                return BadRequest(ex.GetMensagem());
+            }
         }
 
         [HttpGet]
-        public List<ListAllUsersDTO> GetUsers() {
-            List<ListAllUsersDTO> usersDTO = new List<ListAllUsersDTO>();
+        public ActionResult GetUsers() {
+            List<ListAllUsersDTO> usersDTO;
 
-            UserRepository userRepository = new UserRepository();
-            UserService userService = new UserService(userRepository);
+            try {
+                UserRepository userRepository = new UserRepository();
+                UserService userService = new UserService(userRepository);
 
-            List<User> users = userService.GetAllUsers();
+                List<User> users = userService.GetAllUsers();
+                usersDTO = new List<ListAllUsersDTO>();
 
-            users.ForEach(user => {
-                ListAllUsersDTO userList = new ListAllUsersDTO();
-                userList.Id = user.GetId();
-                userList.Name = user.GetName();
-                userList.Email = user.GetEmail();
-                userList.Password = user.GetPassword();
-                userList.IsAdmin = user.GetIsAdmin();
-                userList.created = user.GetCreate();
-                usersDTO.Add(userList);
-            });
+                users.ForEach(user => {
+                    ListAllUsersDTO userList = new ListAllUsersDTO();
+                    userList.Id = user.GetId();
+                    userList.Name = user.GetName();
+                    userList.Email = user.GetEmail();
+                    userList.Password = user.GetPassword();
+                    userList.IsAdmin = user.GetIsAdmin();
+                    userList.created = user.GetCreate();
+                    usersDTO.Add(userList);
+                });
+            }
+            catch (BadRequest ex){
+                return BadRequest(ex.GetMensagem());
+            }
 
-            return usersDTO;
+            return Ok(usersDTO);
         }
 
 
@@ -75,7 +85,7 @@ namespace blog_API.Controllers {
             UserRepository userRepository = new UserRepository();
             UserService userService = new UserService(userRepository);
 
-            bool userSave = userService.DeleteById(id);     
+            bool userSave = userService.DeleteById(id);
 
             return userSave;
         }
