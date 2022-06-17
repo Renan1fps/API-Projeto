@@ -108,6 +108,35 @@ namespace blog_API.Controllers
             return null;
         }
 
+
+        [HttpPost("auth")]
+        public ActionResult UserAuthentication([FromBody] AuthDTO auth)
+        {
+            try
+            {
+                UserRepository userRepository = new UserRepository();
+                UserService userService = new UserService(userRepository);
+
+                bool userSave = userService.UserAuthentication(auth.Email,auth.Password);
+
+                if (userSave != false)
+                {
+
+                    return Ok(true);
+                }
+            }
+            catch (BadRequest ex)
+            {
+                return BadRequest(ex.GetMensagem());
+            }
+            catch (IntegrationException ex)
+            {
+                return BadRequest(ex.GetMensagem());
+            }
+
+            return Unauthorized();
+        }
+
         [HttpDelete("{id}")]
         public ActionResult DeleteById(string id)
         {
