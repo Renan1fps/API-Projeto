@@ -30,6 +30,10 @@ namespace blog_API.Controllers
                 BadRequest();
                 return BadRequest(ex.GetMensagem());
             }
+            catch (IntegrationException ex)
+            {
+                return BadRequest(ex.GetMensagem());
+            }
         }
 
         [HttpGet]
@@ -62,32 +66,46 @@ namespace blog_API.Controllers
             {
                 return BadRequest(ex.GetMensagem());
             }
+            catch (IntegrationException ex)
+            {
+                return BadRequest(ex.GetMensagem());
+            }
 
             return Ok(postsDTO);
         }
 
 
         [HttpGet("{id}")]
-        public GetPostDTO GetPostById(string id)
+        public ActionResult GetPostById(string id)
         {
-
-            PostRepository postRepository = new PostRepository();
-            PostService postService = new PostService(postRepository);
-
-            Post postSave = postService.GetPostById(id);
-
-            if (postSave != null)
+            try
             {
-                GetPostDTO postDTO = new GetPostDTO();
+                PostRepository postRepository = new PostRepository();
+                PostService postService = new PostService(postRepository);
 
-                postDTO.Id_post = postSave.GetIdPost();
-                postDTO.Id_theme = postSave.GetIdTheme();
-                postDTO.Title = postSave.GetTitle();
-                postDTO.Resum = postSave.GetResum();
-                postDTO.Body = postSave.GetBody();
-                postDTO.Id_user = postSave.GetIdUser();
-                postDTO.created = postSave.GetCreate();
-                return postDTO;
+                Post postSave = postService.GetPostById(id);
+
+                if (postSave != null)
+                {
+                    GetPostDTO postDTO = new GetPostDTO();
+
+                    postDTO.Id_post = postSave.GetIdPost();
+                    postDTO.Id_theme = postSave.GetIdTheme();
+                    postDTO.Title = postSave.GetTitle();
+                    postDTO.Resum = postSave.GetResum();
+                    postDTO.Body = postSave.GetBody();
+                    postDTO.Id_user = postSave.GetIdUser();
+                    postDTO.created = postSave.GetCreate();
+                    return Ok(postDTO);
+                }
+            }
+            catch (BadRequest ex)
+            {
+                return BadRequest(ex.GetMensagem());
+            }
+            catch (IntegrationException ex)
+            {
+                return BadRequest(ex.GetMensagem());
             }
 
             return null;
@@ -95,25 +113,47 @@ namespace blog_API.Controllers
 
 
         [HttpDelete("{id}")]
-        public bool DeleteById(string id)
+        public ActionResult DeleteById(string id)
         {
+            try
+            {
+                PostRepository postRepository = new PostRepository();
+                PostService postService = new PostService(postRepository);
 
-            PostRepository postRepository = new PostRepository();
-            PostService postService = new PostService(postRepository);
+                bool postSave = postService.DeleteById(id);
 
-            bool postSave = postService.DeleteById(id);
-
-            return postSave;
+                return Ok(postSave);
+            }
+            catch (BadRequest ex)
+            {
+                return BadRequest(ex.GetMensagem());
+            }
+            catch (IntegrationException ex)
+            {
+                return BadRequest(ex.GetMensagem());
+            }
         }
 
         [HttpPut("{id}")]
-        public void UpdateById(string id, [FromBody] CreatePostDTO post)
+        public ActionResult UpdateById(string id, [FromBody] CreatePostDTO post)
         {
+            try
+            {
+                PostRepository postRepository = new PostRepository();
+                PostService postService = new PostService(postRepository);
 
-            PostRepository postRepository = new PostRepository();
-            PostService postService = new PostService(postRepository);
+                Post postSave = postService.UpdateById(id, post);
 
-            Post postSave = postService.UpdateById(id, post);
+                return Ok(postSave);
+            }
+            catch (BadRequest ex)
+            {
+                return BadRequest(ex.GetMensagem());
+            }
+            catch (IntegrationException ex)
+            {
+                return BadRequest(ex.GetMensagem());
+            }
 
         }
 
@@ -144,6 +184,10 @@ namespace blog_API.Controllers
                 });
             }
             catch (BadRequest ex)
+            {
+                return BadRequest(ex.GetMensagem());
+            }
+            catch (IntegrationException ex)
             {
                 return BadRequest(ex.GetMensagem());
             }

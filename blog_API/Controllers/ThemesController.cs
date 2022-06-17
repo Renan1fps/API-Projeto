@@ -26,6 +26,10 @@ namespace blog_API.Controllers {
             catch (BadRequest ex) {
                 BadRequest();
                 return BadRequest(ex.GetMensagem());
+            }         
+            catch (IntegrationException ex)
+            {
+                return BadRequest(ex.GetMensagem());
             }
         }
 
@@ -51,26 +55,41 @@ namespace blog_API.Controllers {
             catch (BadRequest ex){
                 return BadRequest(ex.GetMensagem());
             }
+            catch (IntegrationException ex)
+            {
+                return BadRequest(ex.GetMensagem());
+            }
 
             return Ok(themesDTO);
         }
 
 
         [HttpGet("{id}")]
-        public GetThemeDTO GetThemeById(string id) {
+        public ActionResult GetThemeById(string id) {
+            try
+            {
+                ThemeRepository themeRepository = new ThemeRepository();
+                ThemeService themeService = new ThemeService(themeRepository);
 
-            ThemeRepository themeRepository = new ThemeRepository();
-            ThemeService themeService = new ThemeService(themeRepository);
+                Theme themeSave = themeService.GetThemeById(id);
 
-            Theme themeSave = themeService.GetThemeById(id);
+                if (themeSave != null)
+                {
+                    GetThemeDTO themeDTO = new GetThemeDTO();
 
-            if (themeSave != null) {
-                GetThemeDTO themeDTO = new GetThemeDTO();
-
-                themeDTO.Id = themeSave.GetId();
-                themeDTO.Name = themeSave.GetName();
-                themeDTO.created = themeSave.GetCreate();
-                return themeDTO;
+                    themeDTO.Id = themeSave.GetId();
+                    themeDTO.Name = themeSave.GetName();
+                    themeDTO.created = themeSave.GetCreate();
+                    return Ok(themeDTO);
+                }
+            }
+            catch (BadRequest ex)
+            {
+                return BadRequest(ex.GetMensagem());
+            }
+            catch (IntegrationException ex)
+            {
+                return BadRequest(ex.GetMensagem());
             }
 
             return null;
@@ -78,14 +97,26 @@ namespace blog_API.Controllers {
 
 
         [HttpDelete("{id}")]
-        public bool DeleteById(string id) {
+        public ActionResult DeleteById(string id) {
 
-            ThemeRepository themeRepository = new ThemeRepository();
-            ThemeService themeService = new ThemeService(themeRepository);
+            try
+            {
+                ThemeRepository themeRepository = new ThemeRepository();
+                ThemeService themeService = new ThemeService(themeRepository);
 
-            bool themeSave = themeService.DeleteById(id);
+                bool themeSave = themeService.DeleteById(id);
 
-            return themeSave;
+                return Ok(themeSave);
+            }
+            catch (BadRequest ex)
+            {
+                return BadRequest(ex.GetMensagem());
+            }
+            catch (IntegrationException ex)
+            {
+                return BadRequest(ex.GetMensagem());
+            }
+
         }
     }
 }

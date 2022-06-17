@@ -1,6 +1,7 @@
 ﻿using blog_API.Dtos;
 using blog_API.Models;
 using MySql.Data.MySqlClient;
+using blog_API.Errors;
 
 namespace blog_API.Repository
 {
@@ -41,8 +42,7 @@ namespace blog_API.Repository
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex); // TODO: make custom exception
-                return null;
+                throw new IntegrationException(ex.Message);
             }
         }
 
@@ -59,7 +59,7 @@ namespace blog_API.Repository
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);  // TODO: make custom exception
+                throw new IntegrationException(ex.Message);
             }
             finally
             {
@@ -96,8 +96,7 @@ namespace blog_API.Repository
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);  // TODO: make custom exception
-                return null;
+                throw new IntegrationException(ex.Message);
             }
         }
 
@@ -131,8 +130,7 @@ namespace blog_API.Repository
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);  // TODO: make custom exception
-                return null;
+                throw new IntegrationException(ex.Message);
             }
         }
 
@@ -147,13 +145,10 @@ namespace blog_API.Repository
                 command.ExecuteNonQuery();
                 return true;
             }
-
             catch (Exception ex)
             {
-                Console.WriteLine(ex);  // TODO: make custom exception
-                return false;
+                throw new IntegrationException(ex.Message);
             }
-
             finally
             {
                 if (command != null) command.Dispose();
@@ -171,13 +166,10 @@ namespace blog_API.Repository
                 command.ExecuteNonQuery();
                 return true;
             }
-
             catch (Exception ex)
             {
-                Console.WriteLine(ex);  // TODO: make custom exception
-                return false;
+                throw new IntegrationException(ex.Message);
             }
-
             finally
             {
                 if (command != null) command.Dispose();
@@ -211,8 +203,7 @@ namespace blog_API.Repository
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex); // TODO: make custom exception
-                return null;
+                throw new IntegrationException(ex.Message);
             }
         }
     }

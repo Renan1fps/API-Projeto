@@ -6,37 +6,50 @@ using blog_API.Services;
 using Microsoft.AspNetCore.Mvc;
 
 
-namespace blog_API.Controllers {
+namespace blog_API.Controllers
+{
 
     [ApiController]
     [Route("[controller]")]
-    public class UsersController : ControllerBase {
+    public class UsersController : ControllerBase
+    {
         private static List<User> userList = new List<User>();
-                [HttpPost]
-        public ActionResult CreateUser([FromBody] CreateUserDTO user) {
-            try {
+
+        [HttpPost]
+        public ActionResult CreateUser([FromBody] CreateUserDTO user)
+        {
+            try
+            {
                 UserRepository userRepository = new UserRepository();
                 UserService userService = new UserService(userRepository);
                 return Ok(userService.CreateUser(user));
             }
-            catch (BadRequest ex) {
+            catch (BadRequest ex)
+            {
                 BadRequest();
+                return BadRequest(ex.GetMensagem());
+            }
+            catch (IntegrationException ex)
+            {
                 return BadRequest(ex.GetMensagem());
             }
         }
 
         [HttpGet]
-        public ActionResult GetUsers() {
+        public ActionResult GetUsers()
+        {
             List<ListAllUsersDTO> usersDTO;
 
-            try {
+            try
+            {
                 UserRepository userRepository = new UserRepository();
                 UserService userService = new UserService(userRepository);
 
                 List<User> users = userService.GetAllUsers();
                 usersDTO = new List<ListAllUsersDTO>();
 
-                users.ForEach(user => {
+                users.ForEach(user =>
+                {
                     ListAllUsersDTO userList = new ListAllUsersDTO();
                     userList.Id = user.GetId();
                     userList.Name = user.GetName();
@@ -47,7 +60,12 @@ namespace blog_API.Controllers {
                     usersDTO.Add(userList);
                 });
             }
-            catch (BadRequest ex){
+            catch (BadRequest ex)
+            {
+                return BadRequest(ex.GetMensagem());
+            }
+            catch (IntegrationException ex)
+            {
                 return BadRequest(ex.GetMensagem());
             }
 
@@ -56,47 +74,82 @@ namespace blog_API.Controllers {
 
 
         [HttpGet("{id}")]
-        public GetUserDTO GetUserById(string id) {
+        public ActionResult GetUserById(string id)
+        {
+            try
+            {
+                UserRepository userRepository = new UserRepository();
+                UserService userService = new UserService(userRepository);
 
-            UserRepository userRepository = new UserRepository();
-            UserService userService = new UserService(userRepository);
+                User userSave = userService.GetUserById(id);
 
-            User userSave = userService.GetUserById(id);
+                if (userSave != null)
+                {
+                    GetUserDTO userDTO = new GetUserDTO();
 
-            if (userSave != null) {
-                GetUserDTO userDTO = new GetUserDTO();
-
-                userDTO.Id = userSave.GetId();
-                userDTO.Name = userSave.GetName();
-                userDTO.Email = userSave.GetEmail();
-                userDTO.Password = userSave.GetPassword();
-                userDTO.IsAdmin = userSave.GetIsAdmin();
-                userDTO.created = userSave.GetCreate();
-                return userDTO;
+                    userDTO.Id = userSave.GetId();
+                    userDTO.Name = userSave.GetName();
+                    userDTO.Email = userSave.GetEmail();
+                    userDTO.Password = userSave.GetPassword();
+                    userDTO.IsAdmin = userSave.GetIsAdmin();
+                    userDTO.created = userSave.GetCreate();
+                    return Ok(userSave);
+                }
+            }
+            catch (BadRequest ex)
+            {
+                return BadRequest(ex.GetMensagem());
+            }
+            catch (IntegrationException ex)
+            {
+                return BadRequest(ex.GetMensagem());
             }
 
             return null;
         }
 
-
         [HttpDelete("{id}")]
-        public bool DeleteById(string id) {
+        public ActionResult DeleteById(string id)
+        {
+            try
+            {
+                UserRepository userRepository = new UserRepository();
+                UserService userService = new UserService(userRepository);
 
-            UserRepository userRepository = new UserRepository();
-            UserService userService = new UserService(userRepository);
+                bool userSave = userService.DeleteById(id);
 
-            bool userSave = userService.DeleteById(id);
-
-            return userSave;
+                return Ok(userSave);
+            }
+            catch (BadRequest ex)
+            {
+                return BadRequest(ex.GetMensagem());
+            }
+            catch (IntegrationException ex)
+            {
+                return BadRequest(ex.GetMensagem());
+            }
         }
 
         [HttpPut("{id}")]
-        public void UpdateById(string id, [FromBody] CreateUserDTO user) {
+        public ActionResult UpdateById(string id, [FromBody] CreateUserDTO user)
+        {
+            try
+            {
+                UserRepository userRepository = new UserRepository();
+                UserService userService = new UserService(userRepository);
 
-            UserRepository userRepository = new UserRepository();
-            UserService userService = new UserService(userRepository);
+                User userSave = userService.UpdateById(id, user);
 
-            User userSave = userService.UpdateById(id, user);
+                return Ok(userSave);
+            }
+            catch (BadRequest ex)
+            {
+                return BadRequest(ex.GetMensagem());
+            }
+            catch (IntegrationException ex)
+            {
+                return BadRequest(ex.GetMensagem());
+            }
 
         }
 
