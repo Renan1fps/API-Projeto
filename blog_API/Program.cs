@@ -17,6 +17,7 @@ if (app.Environment.IsDevelopment()) {
     app.UseSwaggerUI();
     UserRepository.OpenConection();
     ThemeRepository.OpenConection();
+    PostRepository.OpenConection();
 }
 
 app.UseHttpsRedirection();
