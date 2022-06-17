@@ -3,6 +3,7 @@ using blog_API.Errors;
 using blog_API.Models;
 using blog_API.Repository;
 using blog_API.Services;
+using blog_API.Utils;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -16,18 +17,23 @@ namespace blog_API.Controllers
         private static List<User> userList = new List<User>();
 
         [HttpPost]
-        public ActionResult CreateUser([FromBody] CreateUserDTO user)
+        public ActionResult CreateUser([FromBody] CreateUserDTO user, [FromHeader] string token = "")
         {
             try
             {
+                bool isAdmin = Authorize.HasPermissionAdmin(token);
+
+                if(user.IsAdmin && !isAdmin) {
+                    throw new BadRequest("Não autorizado");
+                }
+
                 UserRepository userRepository = new UserRepository();
                 UserService userService = new UserService(userRepository);
                 return Ok(userService.CreateUser(user));
             }
             catch (BadRequest ex)
             {
-                BadRequest();
-                return BadRequest(ex.GetMensagem());
+                return Unauthorized(ex.GetMensagem());
             }
             catch (IntegrationException ex)
             {
@@ -117,13 +123,13 @@ namespace blog_API.Controllers
                 UserRepository userRepository = new UserRepository();
                 UserService userService = new UserService(userRepository);
 
-                bool userSave = userService.UserAuthentication(auth.Email,auth.Password);
+                string token = userService.UserAuthentication(auth.Email,auth.Password);
 
-                if (userSave != false)
+                if (token != null)
                 {
 
-                    return Ok(true);
-                }
+                    return Ok(token);
+                } 
             }
             catch (BadRequest ex)
             {

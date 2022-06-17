@@ -1,4 +1,5 @@
 ﻿using blog_API.Dtos;
+using blog_API.Errors;
 using blog_API.Models;
 using blog_API.Repository;
 
@@ -55,21 +56,24 @@ namespace blog_API.Services
             return BCrypt.Net.BCrypt.Verify(password, hash);
         }
 
-        public bool UserAuthentication(string email, string pass)
+        public string UserAuthentication(string email, string pass)
         {
-            User existsUser = this.userRepository.GetUserByEmailAndPass(email, hashPassword);
+            User existsUser = this.userRepository.GetUserByEmailAndPass(email, pass);
 
             if (existsUser == null)
             {
-                return false;
+                throw new BadRequest("invalid credentials");
             }
+
             if (PasswordCompare(existsUser.GetPassword(), pass))
             {
-                return true;
+                var key = existsUser.GetIsAdmin() ? "admin" : "view";
+                string salt = BCrypt.Net.BCrypt.GenerateSalt(12);
+                string hashKey = BCrypt.Net.BCrypt.HashPassword(key, salt);
+                return hashKey;
             }
-            
 
-            return false;
+            throw new BadRequest("invalid credentials");
         }
 
         public bool DeleteById(string id)
