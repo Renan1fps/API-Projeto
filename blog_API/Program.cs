@@ -18,6 +18,7 @@ if (app.Environment.IsDevelopment()) {
     UserRepository.OpenConection();
     ThemeRepository.OpenConection();
     PostRepository.OpenConection();
+    ChoiceRepository.OpenConection();
 }
 
 app.UseHttpsRedirection();
