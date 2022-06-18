@@ -68,6 +68,7 @@ namespace blog_API.Services
             if (PasswordCompare(existsUser.GetPassword(), pass))
             {
                 var key = existsUser.GetIsAdmin() ? "admin" : "view";
+                Console.WriteLine(existsUser.GetIsAdmin());
                 string salt = BCrypt.Net.BCrypt.GenerateSalt(12);
                 string hashKey = BCrypt.Net.BCrypt.HashPassword(key, salt);
                 return hashKey;

@@ -23,7 +23,8 @@ namespace blog_API.Controllers
             {
                 bool isAdmin = Authorize.HasPermissionAdmin(token);
 
-                if(user.IsAdmin && !isAdmin) {
+                if (user.IsAdmin && !isAdmin)
+                {
                     throw new BadRequest("Não autorizado");
                 }
 
@@ -42,12 +43,19 @@ namespace blog_API.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetUsers()
+        public ActionResult GetUsers([FromHeader] string token = "")
         {
             List<ListAllUsersDTO> usersDTO;
 
             try
             {
+                bool isAdmin = Authorize.HasPermissionAdmin(token);
+
+                if (!isAdmin)
+                {
+                    throw new BadRequest("Não autorizado");
+                }
+
                 UserRepository userRepository = new UserRepository();
                 UserService userService = new UserService(userRepository);
 
@@ -68,7 +76,7 @@ namespace blog_API.Controllers
             }
             catch (BadRequest ex)
             {
-                return BadRequest(ex.GetMensagem());
+                return Unauthorized(ex.GetMensagem());
             }
             catch (IntegrationException ex)
             {
@@ -80,10 +88,17 @@ namespace blog_API.Controllers
 
 
         [HttpGet("{id}")]
-        public ActionResult GetUserById(string id)
+        public ActionResult GetUserById(string id, [FromHeader] string token = "")
         {
             try
             {
+                bool isAdmin = Authorize.HasPermissionAdmin(token);
+
+                if (!isAdmin)
+                {
+                    throw new BadRequest("Não autorizado");
+                }
+
                 UserRepository userRepository = new UserRepository();
                 UserService userService = new UserService(userRepository);
 
@@ -104,7 +119,7 @@ namespace blog_API.Controllers
             }
             catch (BadRequest ex)
             {
-                return BadRequest(ex.GetMensagem());
+                return Unauthorized(ex.GetMensagem());
             }
             catch (IntegrationException ex)
             {
@@ -123,13 +138,13 @@ namespace blog_API.Controllers
                 UserRepository userRepository = new UserRepository();
                 UserService userService = new UserService(userRepository);
 
-                string token = userService.UserAuthentication(auth.Email,auth.Password);
+                string token = userService.UserAuthentication(auth.Email, auth.Password);
 
                 if (token != null)
                 {
 
                     return Ok(token);
-                } 
+                }
             }
             catch (BadRequest ex)
             {

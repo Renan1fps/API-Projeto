@@ -116,7 +116,7 @@ namespace blog_API.Repository
                     string passwordSave = data.GetString(3);
                     bool isAdmin = data.GetBoolean(4);
                     DateTime createdAt = data.GetDateTime(5);
-                    User user = new User(emailSave, passwordSave);
+                    User user = new User(emailSave, passwordSave, isAdmin);
                     data.Close();
                     return user;
                 }

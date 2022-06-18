@@ -12,10 +12,11 @@ namespace blog_API.Models
         private bool IsAdmin;
         private DateTime Created;
 
-        public User(string email, string password)
+        public User(string email, string password, bool isAdmin)
         {
             this.Email = email;
             this.Password = password;
+            this.IsAdmin = isAdmin;
 
         }
 

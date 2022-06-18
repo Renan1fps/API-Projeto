@@ -3,6 +3,7 @@ using blog_API.Errors;
 using blog_API.Models;
 using blog_API.Repository;
 using blog_API.Services;
+using blog_API.Utils;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -17,18 +18,24 @@ namespace blog_API.Controllers
         private static List<Post> postList = new List<Post>();
 
         [HttpPost]
-        public ActionResult CreatePost([FromBody] CreatePostDTO post)
+        public ActionResult CreatePost([FromBody] CreatePostDTO post, [FromHeader] string token = "")
         {
             try
             {
+                bool isAdmin = Authorize.HasPermissionAdmin(token);
+
+                if (!isAdmin)
+                {
+                    throw new BadRequest("Não autorizado");
+                }
+
                 PostRepository postRepository = new PostRepository();
                 PostService postService = new PostService(postRepository);
                 return Ok(postService.CreatePost(post));
             }
             catch (BadRequest ex)
             {
-                BadRequest();
-                return BadRequest(ex.GetMensagem());
+                return Unauthorized(ex.GetMensagem());
             }
             catch (IntegrationException ex)
             {
@@ -37,12 +44,19 @@ namespace blog_API.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetPost()
+        public ActionResult GetPost([FromHeader] string token = "")
         {
             List<ListAllPostsDTO> postsDTO;
 
             try
             {
+                bool isAdmin = Authorize.HasPermissionAdmin(token);
+
+                if (!isAdmin)
+                {
+                    throw new BadRequest("Não autorizado");
+                }
+
                 PostRepository postRepository = new PostRepository();
                 PostService postService = new PostService(postRepository);
 
@@ -76,10 +90,17 @@ namespace blog_API.Controllers
 
 
         [HttpGet("{id}")]
-        public ActionResult GetPostById(string id)
+        public ActionResult GetPostById(string id, [FromHeader] string token = "")
         {
             try
             {
+                bool isAdmin = Authorize.HasPermissionAdmin(token);
+
+                if (!isAdmin)
+                {
+                    throw new BadRequest("Não autorizado");
+                }
+
                 PostRepository postRepository = new PostRepository();
                 PostService postService = new PostService(postRepository);
 
@@ -101,7 +122,7 @@ namespace blog_API.Controllers
             }
             catch (BadRequest ex)
             {
-                return BadRequest(ex.GetMensagem());
+                return Unauthorized(ex.GetMensagem());
             }
             catch (IntegrationException ex)
             {
@@ -113,10 +134,17 @@ namespace blog_API.Controllers
 
 
         [HttpDelete("{id}")]
-        public ActionResult DeleteById(string id)
+        public ActionResult DeleteById(string id, [FromHeader] string token = "")
         {
             try
             {
+                bool isAdmin = Authorize.HasPermissionAdmin(token);
+
+                if (!isAdmin)
+                {
+                    throw new BadRequest("Não autorizado");
+                }
+
                 PostRepository postRepository = new PostRepository();
                 PostService postService = new PostService(postRepository);
 
@@ -126,7 +154,7 @@ namespace blog_API.Controllers
             }
             catch (BadRequest ex)
             {
-                return BadRequest(ex.GetMensagem());
+                return Unauthorized(ex.GetMensagem());
             }
             catch (IntegrationException ex)
             {
@@ -135,10 +163,17 @@ namespace blog_API.Controllers
         }
 
         [HttpPut("{id}")]
-        public ActionResult UpdateById(string id, [FromBody] CreatePostDTO post)
+        public ActionResult UpdateById(string id, [FromBody] CreatePostDTO post, [FromHeader] string token = "")
         {
             try
             {
+                bool isAdmin = Authorize.HasPermissionAdmin(token);
+
+                if (!isAdmin)
+                {
+                    throw new BadRequest("Não autorizado");
+                }
+
                 PostRepository postRepository = new PostRepository();
                 PostService postService = new PostService(postRepository);
 
@@ -148,7 +183,7 @@ namespace blog_API.Controllers
             }
             catch (BadRequest ex)
             {
-                return BadRequest(ex.GetMensagem());
+                return Unauthorized(ex.GetMensagem());
             }
             catch (IntegrationException ex)
             {
