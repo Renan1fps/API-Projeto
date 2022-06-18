@@ -18,14 +18,14 @@ namespace blog_API.Controllers
         private static List<Choices> choiceList = new List<Choices>();
 
         [HttpPost("{id}")]
-        public ActionResult CreateChoice([FromBody] CreateChoiceDTO[] themes, string id)
+        public ActionResult CreateChoice([FromBody] string[] themes, string id)
         {
             try
             {
 
                 ChoicesRepository choiceRepository = new ChoicesRepository();
                 ChoiceService choiceService = new ChoiceService(choiceRepository);
-                return Ok(choiceService.CreateChoice(themes, id)); /// aqui o problema
+                return Ok(choiceService.CreateChoice(id, themes)); /// aqui o problema
             }
             catch (BadRequest ex)
             {

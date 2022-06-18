@@ -2,32 +2,39 @@
 using blog_API.Models;
 using blog_API.Repository;
 
-namespace blog_API.Services {
+namespace blog_API.Services
+{
 
-    public class ChoiceService {
+    public class ChoiceService
+    {
 
         private ChoicesRepository choiceRepository = null;
+        private UserRepository userRepository = null;
 
-        public ChoiceService(ChoicesRepository choiceRepository) {
+        public ChoiceService(ChoicesRepository choiceRepository)
+        {
             this.choiceRepository = choiceRepository;
         }
 
-        public string CreateChoice(string[] theme, string id) {
+        public string CreateChoice(string id, string[] theme)
+        {
 
-            for (int i = 0; i > 2; i++)
+            for (int i=0; i<theme.Length; i++)  
             {
                 Choices choiceToSave = new Choices(theme[i], id);
                 choiceToSave.GenerateId();
+                Console.WriteLine("Aqui");
 
-                this.choiceRepository.CreateChoices(choiceToSave); 
+                this.choiceRepository.CreateChoices(choiceToSave);
 
             }
 
-            return "Escolhas salvas";
+            return "Escolhas não salvas";
 
         }
 
-        public List<Choices> GetAllChoices() { 
+        public List<Choices> GetAllChoices()
+        {
             return this.choiceRepository.GetAllChoices();
         }
 
