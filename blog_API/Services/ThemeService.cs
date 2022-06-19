@@ -22,7 +22,7 @@ namespace blog_API.Services
 
             if (existsTheme != null)
             {
-                return "Usuário já existente"; // TODO: make a helper 400 request
+                return "Tema já existente"; // TODO: make a helper 400 request
             }
 
             Theme themeToSave = new Theme(theme.Name);

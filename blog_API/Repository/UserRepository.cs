@@ -8,7 +8,7 @@ namespace blog_API.Repository
     public class UserRepository
     {
 
-        static readonly string url = @"server=projeto.cyvycyex4cnc.us-east-1.rds.amazonaws.com;uid=root;pwd=pedro.123;database=bd_article_dev;ConnectionTimeout=2";
+        static readonly string url = @"server=projeto.cyvycyex4cnc.us-east-1.rds.amazonaws.com;uid=root;pwd=pedro.123;database=bd_article;ConnectionTimeout=2";
         static readonly MySqlConnection connection = new MySqlConnection(url);
 
         public static void OpenConection()
@@ -20,7 +20,7 @@ namespace blog_API.Repository
         {
             try
             {
-                string queryString = "SELECT * FROM users";
+                string queryString = "SELECT * FROM tb_users";
                 MySqlCommand command = new MySqlCommand(queryString, connection);
                 MySqlDataReader data = command.ExecuteReader();
                 List<User> lista = new List<User>();
@@ -51,7 +51,7 @@ namespace blog_API.Repository
             MySqlCommand command = null;
             try
             {
-                string queryString = "INSERT INTO users (id, name, email, passowrd, is_admin)" +
+                string queryString = "INSERT INTO tb_users (id_user, name_user, email, password, is_admin)" +
                 $"VALUES ( '{user.GetId()}', '{user.GetName()}', '{user.GetEmail()}', '{user.GetPassword()}', {user.GetIsAdmin()})";
 
                 command = new MySqlCommand(queryString, connection);
@@ -72,7 +72,7 @@ namespace blog_API.Repository
             MySqlCommand command = null;
             try
             {
-                string queryString = $"SELECT * FROM users WHERE email = '{email}'";
+                string queryString = $"SELECT * FROM tb_users WHERE email = '{email}'";
 
                 command = new MySqlCommand(queryString, connection);
                 MySqlDataReader data = command.ExecuteReader();
@@ -103,7 +103,7 @@ namespace blog_API.Repository
             MySqlCommand command = null;
             try
             {
-                string queryString = $"SELECT * FROM users WHERE email = '{email}'";
+                string queryString = $"SELECT * FROM tb_users WHERE email = '{email}'";
 
                 command = new MySqlCommand(queryString, connection);
                 MySqlDataReader data = command.ExecuteReader();
@@ -135,7 +135,7 @@ namespace blog_API.Repository
             MySqlCommand command = null;
             try
             {
-                string queryString = $"SELECT * FROM users WHERE id = '{id}'";
+                string queryString = $"SELECT * FROM tb_users WHERE id_user = '{id}'";
 
                 command = new MySqlCommand(queryString, connection);
                 MySqlDataReader data = command.ExecuteReader();
@@ -167,7 +167,7 @@ namespace blog_API.Repository
             MySqlCommand command = null;
             try
             {
-                string queryString = $"DELETE FROM users WHERE id = '{id}'";
+                string queryString = $"DELETE FROM tb_users WHERE id_user = '{id}'";
 
                 command = new MySqlCommand(queryString, connection);
                 command.ExecuteNonQuery();
@@ -188,7 +188,7 @@ namespace blog_API.Repository
             MySqlCommand command = null;
             try
             {
-                string queryString = $"UPDATE users SET name = '{user.GetName()}', email = '{user.GetEmail()}', passowrd = '{user.GetPassword()}' WHERE id = '{id}'";
+                string queryString = $"UPDATE tb_users SET name_user = '{user.GetName()}', email = '{user.GetEmail()}', password = '{user.GetPassword()}' WHERE id_user = '{id}'";
 
                 command = new MySqlCommand(queryString, connection);
                 command.ExecuteNonQuery();

@@ -129,7 +129,7 @@ namespace blog_API.Controllers
                 return BadRequest(ex.GetMensagem());
             }
 
-            return null;
+            return Ok("Post não encontrado");
         }
 
 
@@ -150,7 +150,7 @@ namespace blog_API.Controllers
 
                 bool postSave = postService.DeleteById(id);
 
-                return Ok(postSave);
+                return Ok("Post deletado com sucesso");
             }
             catch (BadRequest ex)
             {
@@ -179,7 +179,7 @@ namespace blog_API.Controllers
 
                 Post postSave = postService.UpdateById(id, post);
 
-                return Ok(postSave);
+                return Ok("Atualização de post realizada com sucesso");
             }
             catch (BadRequest ex)
             {

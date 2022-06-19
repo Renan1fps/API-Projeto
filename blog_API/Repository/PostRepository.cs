@@ -8,7 +8,7 @@ namespace blog_API.Repository
     public class PostRepository
     {
 
-        static readonly string url = @"server=projeto.cyvycyex4cnc.us-east-1.rds.amazonaws.com;uid=root;pwd=pedro.123;database=bd_article_dev;ConnectionTimeout=2";
+        static readonly string url = @"server=projeto.cyvycyex4cnc.us-east-1.rds.amazonaws.com;uid=root;pwd=pedro.123;database=bd_article;ConnectionTimeout=2";
         static readonly MySqlConnection connection = new MySqlConnection(url);
 
         public static void OpenConection()
@@ -29,11 +29,11 @@ namespace blog_API.Repository
                 {
                     string id_post = data.GetString(0);
                     string id_theme = data.GetString(1);
-                    string resum = data.GetString(2);
-                    string body = data.GetString(3);
-                    string id_user = data.GetString(4);
-                    DateTime createdAt = data.GetDateTime(5);
-                    string title = data.GetString(6);
+                    string title = data.GetString(2);
+                    string resum = data.GetString(3);
+                    string body = data.GetString(4);
+                    string id_user = data.GetString(5);
+                    DateTime createdAt = data.GetDateTime(6);
                     Post post = new Post(id_post, id_theme, title, resum, body, id_user, createdAt);
                     lista.Add(post);
                 }
@@ -81,11 +81,11 @@ namespace blog_API.Repository
                 {
                     string id_post = data.GetString(0);
                     string id_theme = data.GetString(1);
-                    string resum = data.GetString(2);
-                    string body = data.GetString(3);
-                    string id_user = data.GetString(4);
-                    DateTime createdAt = data.GetDateTime(5);
-                    string titleSave = data.GetString(6);
+                    string titleSave = data.GetString(2);
+                    string resum = data.GetString(3);
+                    string body = data.GetString(4);
+                    string id_user = data.GetString(5);
+                    DateTime createdAt = data.GetDateTime(6);
                     Post post = new Post(id_post, id_theme, titleSave, resum, body, id_user, createdAt);
                     data.Close();
                     return post;
@@ -115,11 +115,11 @@ namespace blog_API.Repository
                 {
                     string id_post = data.GetString(0);
                     string id_theme = data.GetString(1);
-                    string resum = data.GetString(2);
-                    string body = data.GetString(3);
-                    string id_user = data.GetString(4);
-                    DateTime createdAt = data.GetDateTime(5);
-                    string title = data.GetString(6);
+                    string title = data.GetString(2);
+                    string resum = data.GetString(3);
+                    string body = data.GetString(4);
+                    string id_user = data.GetString(5);
+                    DateTime createdAt = data.GetDateTime(6);
                     Post post = new Post(id_post, id_theme, title, resum, body, id_user, createdAt);
                     data.Close();
                     return post;
@@ -190,11 +190,11 @@ namespace blog_API.Repository
                 {
                     string id_post = data.GetString(0);
                     string id_theme = data.GetString(1);
-                    string resum = data.GetString(2);
-                    string body = data.GetString(3);
-                    string id_user = data.GetString(4);
-                    DateTime createdAt = data.GetDateTime(5);
-                    string title = data.GetString(6);
+                    string title = data.GetString(2);
+                    string resum = data.GetString(3);
+                    string body = data.GetString(4);
+                    string id_user = data.GetString(5);
+                    DateTime createdAt = data.GetDateTime(6);
                     Post post = new Post(id_post, id_theme, title, resum, body, id_user, createdAt);
                     lista.Add(post);
                 }

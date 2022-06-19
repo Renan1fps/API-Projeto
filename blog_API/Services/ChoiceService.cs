@@ -9,7 +9,6 @@ namespace blog_API.Services
     {
 
         private ChoicesRepository choiceRepository = null;
-        private UserRepository userRepository = null;
 
         public ChoiceService(ChoicesRepository choiceRepository)
         {
@@ -23,13 +22,12 @@ namespace blog_API.Services
             {
                 Choices choiceToSave = new Choices(theme[i], id);
                 choiceToSave.GenerateId();
-                Console.WriteLine("Aqui");
 
                 this.choiceRepository.CreateChoices(choiceToSave);
 
             }
 
-            return "Escolhas não salvas";
+            return "Escolhas  salvas";
 
         }
 

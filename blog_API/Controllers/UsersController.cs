@@ -114,7 +114,7 @@ namespace blog_API.Controllers
                     userDTO.Password = userSave.GetPassword();
                     userDTO.IsAdmin = userSave.GetIsAdmin();
                     userDTO.created = userSave.GetCreate();
-                    return Ok(userSave);
+                    return Ok(userDTO);
                 }
             }
             catch (BadRequest ex)
@@ -190,7 +190,7 @@ namespace blog_API.Controllers
 
                 User userSave = userService.UpdateById(id, user);
 
-                return Ok(userSave);
+                return Ok("Usuário atualizado");
             }
             catch (BadRequest ex)
             {
