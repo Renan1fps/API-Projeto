@@ -56,7 +56,7 @@ namespace blog_API.Services
             return BCrypt.Net.BCrypt.Verify(password, hash);
         }
 
-        public string UserAuthentication(string email, string pass)
+        public AuthResponseDTO UserAuthentication(string email, string pass)
         {
             User existsUser = this.userRepository.GetUserByEmailAndPass(email, pass);
 
@@ -68,10 +68,23 @@ namespace blog_API.Services
             if (PasswordCompare(existsUser.GetPassword(), pass))
             {
                 var key = existsUser.GetIsAdmin() ? "admin" : "view";
-                Console.WriteLine(existsUser.GetIsAdmin());
                 string salt = BCrypt.Net.BCrypt.GenerateSalt(12);
                 string hashKey = BCrypt.Net.BCrypt.HashPassword(key, salt);
-                return hashKey;
+
+                GetChoicesDTO choices = this.userRepository.GetChoicesByUserId(existsUser.GetId());
+                GetUserDTO user = new GetUserDTO();
+                user.Id = existsUser.GetId();
+                user.IsAdmin = existsUser.GetIsAdmin();
+                user.Name = existsUser.GetName();
+                user.Email = existsUser.GetEmail();
+                user.created = existsUser.GetCreate();
+
+                AuthResponseDTO response = new AuthResponseDTO();
+                response.user = user;
+                response.token = hashKey;
+                response.choices = choices;
+
+                return response;
             }
 
             throw new BadRequest("invalid credentials");

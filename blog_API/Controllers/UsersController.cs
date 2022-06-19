@@ -138,12 +138,11 @@ namespace blog_API.Controllers
                 UserRepository userRepository = new UserRepository();
                 UserService userService = new UserService(userRepository);
 
-                string token = userService.UserAuthentication(auth.Email, auth.Password);
+                var authResponse = userService.UserAuthentication(auth.Email, auth.Password);
 
-                if (token != null)
+                if (authResponse != null)
                 {
-
-                    return Ok(token);
+                    return Ok(authResponse);
                 }
             }
             catch (BadRequest ex)
@@ -201,6 +200,16 @@ namespace blog_API.Controllers
                 return BadRequest(ex.GetMensagem());
             }
 
+        }
+
+        [HttpGet("test")]
+        public ActionResult Test() {
+
+            TestDTO test = new TestDTO();
+            test.Email = "test";
+            test.ids = new string[2] { "opa", "opa2" };
+
+            return Ok(test);
         }
 
     }

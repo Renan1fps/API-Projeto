@@ -18,11 +18,13 @@ namespace blog_API.Repository
 
         public List<Post> GetAllPosts()
         {
+            MySqlCommand command = null;
+            MySqlDataReader data = null;
             try
             {
                 string queryString = "SELECT * FROM tb_posts";
-                MySqlCommand command = new MySqlCommand(queryString, connection);
-                MySqlDataReader data = command.ExecuteReader();
+                command = new MySqlCommand(queryString, connection);
+                data = command.ExecuteReader();
                 List<Post> lista = new List<Post>();
 
                 while (data.Read())
@@ -43,6 +45,11 @@ namespace blog_API.Repository
             catch (Exception ex)
             {
                 throw new IntegrationException(ex.Message);
+            }
+            finally {
+                if (data != null) data.Dispose();
+                if (data != null) data.Close();
+                if (command != null) command.Dispose();
             }
         }
 

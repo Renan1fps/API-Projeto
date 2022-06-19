@@ -116,7 +116,7 @@ namespace blog_API.Repository
                     string passwordSave = data.GetString(3);
                     bool isAdmin = data.GetBoolean(4);
                     DateTime createdAt = data.GetDateTime(5);
-                    User user = new User(emailSave, passwordSave, isAdmin);
+                    User user = new User(id, name, emailSave, passwordSave, isAdmin, createdAt);
                     data.Close();
                     return user;
                 }
@@ -204,7 +204,31 @@ namespace blog_API.Repository
             }
         }
 
+        public GetChoicesDTO GetChoicesByUserId(string id) {
+            MySqlCommand command = null;
+            try {
+                string queryString = $"select tc.* from tb_choices tc left join tb_users tu ON tu.id_user = tc.id_user where tu.id_user = '{id}'";
 
+                command = new MySqlCommand(queryString, connection);
+                MySqlDataReader data = command.ExecuteReader();
+
+                GetChoicesDTO choices = new GetChoicesDTO();
+                string[] choicesArray = new string[3];
+                int count = 0;
+
+                while (data.Read()) {
+                    string idThema = data.GetString(1);
+                    choicesArray[count]= idThema;
+                    count++;
+                }
+                data.Close();
+                choices.IdChoices = choicesArray;
+                return choices;
+            }
+            catch (Exception ex) {
+                throw new IntegrationException(ex.Message);
+            }
+        }
 
 
     }

@@ -9,7 +9,15 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//builder.Services.AddCors();
+
 var app = builder.Build();
+
+app.UseCors(c => {
+    c.AllowAnyHeader();
+    c.AllowAnyMethod();
+    c.AllowAnyOrigin();
+});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment()) {
@@ -20,6 +28,7 @@ if (app.Environment.IsDevelopment()) {
     PostRepository.OpenConection();
     ChoicesRepository.OpenConection();
 }
+
 
 app.UseHttpsRedirection();
 
