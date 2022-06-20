@@ -90,6 +90,37 @@ namespace blog_API.Services
             throw new BadRequest("invalid credentials");
         }
 
+        public AuthResponseDTO UserReloadChoice(string id)
+        {
+            User existsUser = this.userRepository.GetUserById(id);
+
+            if (existsUser == null)
+            {
+                throw new BadRequest("invalid credentials");
+            }
+
+            if (existsUser != null)
+            {
+
+                GetChoicesDTO choices = this.userRepository.GetChoicesByUserId(existsUser.GetId());
+                GetUserDTO user = new GetUserDTO();
+                user.Id = existsUser.GetId();
+                user.IsAdmin = existsUser.GetIsAdmin();
+                user.Name = existsUser.GetName();
+                user.Email = existsUser.GetEmail();
+                user.created = existsUser.GetCreate();
+
+                AuthResponseDTO response = new AuthResponseDTO();
+                response.user = user;
+                response.token = " ";
+                response.choices = choices;
+
+                return response;
+            }
+
+            throw new BadRequest("invalid credentials");
+        }
+
         public bool DeleteById(string id)
         {
 

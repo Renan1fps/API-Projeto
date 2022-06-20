@@ -157,6 +157,35 @@ namespace blog_API.Controllers
             return Unauthorized();
         }
 
+
+        [HttpPost("me/{id}")]
+        public ActionResult UserReloadChoice(string id)
+        {
+            try
+            {
+                UserRepository userRepository = new UserRepository();
+                UserService userService = new UserService(userRepository);
+
+                var authResponse = userService.UserReloadChoice(id);
+
+                if (authResponse != null)
+                {
+                    return Ok(authResponse);
+                }
+            }
+            catch (BadRequest ex)
+            {
+                return BadRequest(ex.GetMensagem());
+            }
+            catch (IntegrationException ex)
+            {
+                return BadRequest(ex.GetMensagem());
+            }
+
+            return Unauthorized();
+        }
+
+
         [HttpDelete("{id}")]
         public ActionResult DeleteById(string id)
         {
