@@ -25,7 +25,7 @@ namespace blog_API.Controllers
 
                 ChoicesRepository choiceRepository = new ChoicesRepository();
                 ChoiceService choiceService = new ChoiceService(choiceRepository);
-                return Ok(choiceService.CreateChoice(id, themes)); /// aqui o problema
+                return Ok(choiceService.CreateChoice(id, themes));
             }
             catch (BadRequest ex)
             {

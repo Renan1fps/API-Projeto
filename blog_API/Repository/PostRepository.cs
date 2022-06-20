@@ -52,7 +52,6 @@ namespace blog_API.Repository
                 if (command != null) command.Dispose();
             }
         }
-
         public void CreatePost(Post post)
         {
             MySqlCommand command = null;
