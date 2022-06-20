@@ -137,21 +137,16 @@ namespace blog_API.Services
 
         public User UpdateById(string id, CreateUserDTO user)
         {
-
+            Console.WriteLine("service");
             User existsUser = this.userRepository.GetUserById(id);
 
-            if (existsUser == null)
-            {
+            if (existsUser == null) {
+                Console.WriteLine("nulo");
                 return null;
             }
+            Console.WriteLine("veio para fora");
 
-            User existsemail = this.userRepository.GetUserByEmail(user.Email);
-
-            if (existsemail != null)
-            {
-                return null; ;
-            }
-
+            Console.WriteLine("Passou aqui depois do email");
             User userToUpdate = new User(user.Name, user.Email, user.Password, user.IsAdmin);
             userToUpdate.CriptoPassword();
 

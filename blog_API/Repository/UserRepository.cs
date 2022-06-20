@@ -188,7 +188,8 @@ namespace blog_API.Repository
             MySqlCommand command = null;
             try
             {
-                string queryString = $"UPDATE tb_users SET name_user = '{user.GetName()}', email = '{user.GetEmail()}', password = '{user.GetPassword()}' WHERE id_user = '{id}'";
+                Console.WriteLine("Executou a query");
+                string queryString = $"UPDATE tb_users SET name_user = '{user.GetName()}', is_admin = {user.GetIsAdmin()}, email = '{user.GetEmail()}', password = '{user.GetPassword()}' WHERE id_user = '{id}'";
 
                 command = new MySqlCommand(queryString, connection);
                 command.ExecuteNonQuery();
