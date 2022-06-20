@@ -158,7 +158,7 @@ namespace blog_API.Controllers
         }
 
 
-        [HttpPost("me/{id}")]
+        [HttpGet("me/{id}")]
         public ActionResult UserReloadChoice(string id)
         {
             try

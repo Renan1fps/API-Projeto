@@ -192,7 +192,7 @@ namespace blog_API.Controllers
 
         }
 
-        [HttpGet("themes")]
+        [HttpPost("themes")]
         public ActionResult GetPostByThemes([FromBody] string[] id)
         {
             List<ListAllPostsDTO> postsDTO;
