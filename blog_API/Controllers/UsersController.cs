@@ -213,8 +213,7 @@ namespace blog_API.Controllers
         {
             try
             {
-                Console.WriteLine(id);
-                Console.WriteLine("Chegou aqui controller ");
+
                 UserRepository userRepository = new UserRepository();
                 UserService userService = new UserService(userRepository);
 
